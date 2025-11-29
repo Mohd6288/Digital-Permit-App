@@ -6,7 +6,8 @@ import requests
 from datetime import datetime
 
 # Change this if your backend URL/port is different
-API_BASE = "http://localhost:8000"
+# API_BASE = "http://localhost:8000"
+API_BASE = 'https://digital-permit-app.onrender.com'
 
 
 # ==============================
