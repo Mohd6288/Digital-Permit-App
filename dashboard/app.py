@@ -16,11 +16,14 @@ API_BASE = 'https://digital-permit-app.onrender.com'
 
 def api_get(path, params=None, default=None):
     try:
-        r = requests.get(f"{API_BASE}{path}", params=params, timeout=5)
+        r = requests.get(f"{API_BASE}{path}", params=params, timeout=25)
         r.raise_for_status()
         return r.json()
+    except requests.exceptions.Timeout:
+        st.error("⏱️ The server is taking too long to respond. It may be starting up. Try again in a moment.")
+        return default if default is not None else []
     except requests.exceptions.ConnectionError:
-        st.error("❌ Cannot reach backend API. Make sure the FastAPI server is running.")
+        st.error("❌ Cannot reach backend API. Check that your Render service is running and the URL is correct.")
         return default if default is not None else []
     except requests.exceptions.RequestException as e:
         st.error(f"API error: {e}")
@@ -29,11 +32,14 @@ def api_get(path, params=None, default=None):
 
 def api_post(path, json=None, default=None):
     try:
-        r = requests.post(f"{API_BASE}{path}", json=json, timeout=5)
+        r = requests.post(f"{API_BASE}{path}", json=json, timeout=25)
         r.raise_for_status()
         return r.json()
+    except requests.exceptions.Timeout:
+        st.error("⏱️ The server is taking too long to respond. It may be starting up. Try again in a moment.")
+        return default
     except requests.exceptions.ConnectionError:
-        st.error("❌ Cannot reach backend API. Make sure the FastAPI server is running.")
+        st.error("❌ Cannot reach backend API. Check that your Render service is running and the URL is correct.")
         return default
     except requests.exceptions.RequestException as e:
         st.error(f"API error: {e}")
@@ -42,11 +48,14 @@ def api_post(path, json=None, default=None):
 
 def api_put(path, json=None, default=None):
     try:
-        r = requests.put(f"{API_BASE}{path}", json=json, timeout=5)
+        r = requests.put(f"{API_BASE}{path}", json=json, timeout=25)
         r.raise_for_status()
         return r.json()
+    except requests.exceptions.Timeout:
+        st.error("⏱️ The server is taking too long to respond. It may be starting up. Try again in a moment.")
+        return default
     except requests.exceptions.ConnectionError:
-        st.error("❌ Cannot reach backend API. Make sure the FastAPI server is running.")
+        st.error("❌ Cannot reach backend API. Check that your Render service is running and the URL is correct.")
         return default
     except requests.exceptions.RequestException as e:
         st.error(f"API error: {e}")
